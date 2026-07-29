@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSB Practice | WAT & TAT</title>
+  <meta name="description" content="Practice Word Association Test (WAT) and Thematic Apperception Test (TAT) for CDS/SSB exam." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- BACKGROUND -->
+  <div class="bg-overlay"></div>
+  <div class="bg-image"></div>
+  <div class="bg-particles" id="particles"></div>
+
+  <!-- LOGIN GATE -->
+  <div class="login-gate" id="login-gate">
+    <div class="login-gate-content">
+      <div class="emblem-ring" style="margin-bottom: 20px;">
+        <div class="emblem-inner">
+          <svg viewBox="0 0 80 80" class="emblem-svg">
+            <polygon points="40,5 47,30 74,30 52,47 60,72 40,55 20,72 28,47 6,30 33,30" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+            <circle cx="40" cy="40" r="15" fill="none" stroke="#d4af37" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="home-badge" style="margin-bottom: 8px;">SSB PREPARATION SUITE</div>
+      <h1 class="home-title" style="font-size: 2.4rem; margin-bottom: 8px;">Psychological <span class="gold">Tests</span></h1>
+      <p style="font-family: 'Exo 2'; color: #8899aa; margin-bottom: 35px; font-size: 0.95rem;">Sign in with your Google account to access WAT &amp; TAT practice modules.</p>
+      <button class="btn-google-signin btn-google-signin-large" id="btn-gate-login">
+        <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
+          <path fill="#ea4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.54 14.98 1 12 1 7.35 1 3.37 3.65 1.4 7.56l3.86 3C6.18 7.55 8.84 5.04 12 5.04z"/>
+          <path fill="#4285f4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.34H12v4.45h6.45c-.28 1.48-1.12 2.74-2.38 3.58l3.69 2.87c2.16-1.99 3.43-4.92 3.43-8.56z"/>
+          <path fill="#fbbc05" d="M5.26 14.44a7.12 7.12 0 0 1 0-4.88l-3.86-3a11.96 11.96 0 0 0 0 10.88l3.86-3z"/>
+          <path fill="#34a853" d="M12 23c3.24 0 5.97-1.07 7.96-2.92l-3.69-2.87c-1.02.68-2.33 1.1-4.27 1.1-3.16 0-5.82-2.51-6.78-5.52l-3.86 3C3.37 20.35 7.35 23 12 23z"/>
+        </svg>
+        Sign in with Google
+      </button>
+      <p style="font-family: 'Exo 2'; color: rgba(255,255,255,0.2); margin-top: 30px; font-size: 0.75rem;">Your progress is securely saved to the cloud.</p>
+    </div>
+  </div>
+
+  <!-- APP WRAPPER (hidden until authenticated) -->
+  <div class="app hidden" id="app">
+    
+    <!-- GLOBAL USER AUTH HEADER -->
+    <div class="global-auth-header" id="global-auth-header">
+      <div id="auth-status-unsigned">
+        <button class="btn-google-signin" id="btn-google-login">
+          <svg viewBox="0 0 24 24" width="16" height="16" style="margin-right: 8px; display: inline-block; vertical-align: middle;">
+            <path fill="#ea4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.54 14.98 1 12 1 7.35 1 3.37 3.65 1.4 7.56l3.86 3C6.18 7.55 8.84 5.04 12 5.04z"/>
+            <path fill="#4285f4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.34H12v4.45h6.45c-.28 1.48-1.12 2.74-2.38 3.58l3.69 2.87c2.16-1.99 3.43-4.92 3.43-8.56z"/>
+            <path fill="#fbbc05" d="M5.26 14.44a7.12 7.12 0 0 1 0-4.88l-3.86-3a11.96 11.96 0 0 0 0 10.88l3.86-3z"/>
+            <path fill="#34a853" d="M12 23c3.24 0 5.97-1.07 7.96-2.92l-3.69-2.87c-1.02.68-2.33 1.1-4.27 1.1-3.16 0-5.82-2.51-6.78-5.52l-3.86 3C3.37 20.35 7.35 23 12 23z"/>
+          </svg>
+          Google Sign In
+        </button>
+      </div>
+      <div id="auth-status-signed" class="hidden">
+        <div class="user-profile-pill">
+          <img src="" id="user-avatar" alt="Avatar" />
+          <span id="user-display-name">Candidate</span>
+          <button class="btn-signout" id="btn-google-logout">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== LANDING SCREEN ==================== -->
+    <div class="screen active" id="screen-landing">
+      <div class="home-content">
+        <div class="emblem-ring">
+          <div class="emblem-inner">
+            <svg viewBox="0 0 80 80" class="emblem-svg">
+              <polygon points="40,5 47,30 74,30 52,47 60,72 40,55 20,72 28,47 6,30 33,30" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+              <circle cx="40" cy="40" r="15" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+        <div class="home-badge">SSB PREPARATION SUITE</div>
+        <h1 class="home-title">Psychological <span class="gold">Tests</span></h1>
+        <p class="home-desc" style="margin-bottom: 40px;">Select a module to begin your practice session.</p>
+
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn-module" id="btn-module-wat" onclick="showScreen('home-wat')" style="padding: 30px 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; cursor: pointer; color: white; transition: 0.3s; width: 250px;">
+            <h3 style="font-family: Orbitron; font-size: 2rem; color: #d4af37; margin-bottom: 10px;">WAT</h3>
+            <p style="font-family: 'Exo 2'; color: #8899aa;">Word Association Test<br>60 Words · 15s</p>
+          </button>
+          <button class="btn-module" id="btn-module-tat" onclick="showScreen('home-tat')" style="padding: 30px 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; cursor: pointer; color: white; transition: 0.3s; width: 250px;">
+            <h3 style="font-family: Orbitron; font-size: 2rem; color: #d4af37; margin-bottom: 10px;">TAT</h3>
+            <p style="font-family: 'Exo 2'; color: #8899aa;">Thematic Apperception Test<br>11 Pics + 1 Blank · 4m</p>
+          </button>
+        </div>
+        <div style="margin-top: 50px; font-family: 'Exo 2'; color: rgba(255,255,255,0.25); font-size: 0.85rem; letter-spacing: 1px; text-align: center; width: 100%;">
+          shout out ot my boyy!!! MEENA....
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== HOME SCREEN (WAT) ==================== -->
+    <div class="screen" id="screen-home-wat">
+      <div class="home-content">
+        <button class="btn-back" onclick="showScreen('landing')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+        <div class="emblem-ring" style="margin-top: 30px;">
+          <div class="emblem-inner">
+            <svg viewBox="0 0 80 80" class="emblem-svg">
+              <polygon points="40,5 47,30 74,30 52,47 60,72 40,55 20,72 28,47 6,30 33,30" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+              <circle cx="40" cy="40" r="15" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+        <div class="home-badge">SSB PREPARATION SUITE</div>
+        <h1 class="home-title">WAT <span class="gold">Practice</span></h1>
+        <p class="home-subtitle">Word Association Test — CDS / SSB Edition</p>
+        <p class="home-desc">60 random words · 15 seconds each · Instant scoring · Performance analytics</p>
+
+        <div class="home-stats" id="home-stats">
+          <div class="stat-card" id="stat-sessions">
+            <span class="stat-num" id="stat-sessions-val">0</span>
+            <span class="stat-label">Sessions</span>
+          </div>
+          <div class="stat-card" id="stat-best">
+            <span class="stat-num" id="stat-best-val">—</span>
+            <span class="stat-label">Best Score</span>
+          </div>
+          <div class="stat-card" id="stat-avg">
+            <span class="stat-num" id="stat-avg-val">—</span>
+            <span class="stat-label">Average</span>
+          </div>
+        </div>
+
+        <!-- File Upload Widget -->
+        <div class="upload-widget">
+          <div class="upload-tabs">
+            <button class="upload-tab-btn active" id="tab-btn-file">📂 File Upload</button>
+            <button class="upload-tab-btn" id="tab-btn-manual">⌨ Manual Input</button>
+          </div>
+          
+          <div id="mode-file-content">
+            <div class="upload-dropzone" id="upload-dropzone">
+              <span class="upload-icon">📂</span>
+              <span class="upload-label">Drop a <strong>.txt</strong> word list file here, or <u>click to browse</u></span>
+              <input type="file" id="word-file-input" accept=".txt,.text" style="display:none" />
+            </div>
+          </div>
+
+          <div id="mode-manual-content" style="display: none;">
+            <textarea id="manual-words-input" placeholder="Type or paste words here... (separated by commas, lines, or spaces)"></textarea>
+            <button class="btn-primary" id="btn-save-manual" style="width: 100%; justify-content: center; margin-top: 10px; padding: 12px;">Apply Words</button>
+          </div>
+
+          <div class="upload-footer">
+            <span class="upload-badge" id="upload-badge">No file loaded — using default word bank</span>
+            <button class="btn-clear-upload" id="btn-clear-upload" style="display:none">✕ Clear</button>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <button class="btn-primary" id="btn-start">
+            <span class="btn-icon">▶</span> Start Session
+          </button>
+          <button class="btn-secondary" id="btn-training" onclick="showScreen('training-setup')">
+            <span class="btn-icon">📚</span> Training Session
+          </button>
+          <button class="btn-secondary" id="btn-history">
+            <span class="btn-icon">📊</span> History
+          </button>
+        </div>
+
+        <div class="home-rules">
+          <h3>How It Works</h3>
+          <div class="rules-grid">
+            <div class="rule-item"><span class="rule-num">01</span><span>60 words shown one at a time</span></div>
+            <div class="rule-item"><span class="rule-num">02</span><span>15 seconds per word</span></div>
+            <div class="rule-item"><span class="rule-num">03</span><span>Write your first thought instantly</span></div>
+            <div class="rule-item"><span class="rule-num">04</span><span>Mark attempted words at the end</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TRAINING SETUP SCREEN ==================== -->
+    <div class="screen" id="screen-training-setup">
+      <div class="home-content">
+        <button class="btn-back" onclick="showScreen('home-wat')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+        
+        <div class="emblem-ring" style="margin-top: 30px;">
+          <div class="emblem-inner">
+            <svg viewBox="0 0 80 80" class="emblem-svg">
+              <polygon points="40,5 47,30 74,30 52,47 60,72 40,55 20,72 28,47 6,30 33,30" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+              <circle cx="40" cy="40" r="15" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+        <div class="home-badge">WAT TRAINING ENVIRONMENT</div>
+        <h1 class="home-title">Training <span class="gold">Setup</span></h1>
+        <p class="home-desc">Configure your custom focused psychological training session.</p>
+
+        <!-- Category Grid Selection -->
+        <div class="training-setup-group">
+          <h3>📦 Select Practice Category</h3>
+          <div class="category-selection-grid">
+            <button class="cat-select-btn active" onclick="selectTrainingCategory('positive', this)">
+              <span class="cat-icon">✨</span> Positive
+            </button>
+            <button class="cat-select-btn" onclick="selectTrainingCategory('negative', this)">
+              <span class="cat-icon">⚡</span> Negative
+            </button>
+            <button class="cat-select-btn" onclick="selectTrainingCategory('neutral', this)">
+              <span class="cat-icon">🌊</span> Neutral
+            </button>
+            <button class="cat-select-btn" onclick="selectTrainingCategory('random', this)">
+              <span class="cat-icon">🎲</span> Random
+            </button>
+            <button class="cat-select-btn" onclick="selectTrainingCategory('custom', this)">
+              <span class="cat-icon">✏️</span> Custom
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Word Area -->
+        <div class="training-setup-group hidden" id="custom-word-group">
+          <h3>✍ Custom Words Input</h3>
+          <p class="hint-text" style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 8px;">Enter words separated by commas (e.g. Success, Command, Fear)</p>
+          <textarea id="training-custom-words" class="custom-word-textarea" placeholder="Type custom words here..."></textarea>
+        </div>
+
+        <!-- Time Selector slider -->
+        <div class="training-setup-group">
+          <h3>⏱️ Timer (Seconds Per Word)</h3>
+          <div class="slider-wrap">
+            <input type="range" id="training-timer-slider" min="5" max="60" value="15" class="timer-slider" oninput="updateTrainingTimerLabel(this.value)">
+            <span class="slider-label" id="training-timer-val">15s</span>
+          </div>
+        </div>
+
+        <!-- Word Count Buttons -->
+        <div class="training-setup-group" id="training-count-group">
+          <h3>📝 Number of Words</h3>
+          <div class="count-selection-wrap">
+            <button class="count-select-btn active" onclick="selectTrainingCount(5, this)">5</button>
+            <button class="count-select-btn" onclick="selectTrainingCount(10, this)">10</button>
+            <button class="count-select-btn" onclick="selectTrainingCount(15, this)">15</button>
+            <button class="count-select-btn" onclick="selectTrainingCount(30, this)">30</button>
+            <button class="count-select-btn" onclick="selectTrainingCount(60, this)">60</button>
+          </div>
+        </div>
+
+        <!-- Start Training Button -->
+        <div style="margin-top: 40px;">
+          <button class="btn-primary" onclick="startTrainingSession()">
+            <span class="btn-icon">▶</span> Start Training
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== HOME SCREEN (TAT) ==================== -->
+    <div class="screen" id="screen-home-tat">
+      <div class="home-content">
+        <button class="btn-back" onclick="showScreen('landing')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+        <div class="emblem-ring" style="margin-top: 30px;">
+          <div class="emblem-inner">
+            <svg viewBox="0 0 80 80" class="emblem-svg">
+              <polygon points="40,5 47,30 74,30 52,47 60,72 40,55 20,72 28,47 6,30 33,30" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+              <circle cx="40" cy="40" r="15" fill="none" stroke="#d4af37" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+        <div class="home-badge">SSB PREPARATION SUITE</div>
+        <h1 class="home-title">TAT <span class="gold">Practice</span></h1>
+        <p class="home-subtitle">Thematic Apperception Test — CDS / SSB Edition</p>
+        <p class="home-desc">11 pictures + 1 blank · 30s view · 4m write</p>
+
+        <div class="home-stats" id="home-stats-tat">
+          <div class="stat-card">
+            <span class="stat-num" id="stat-sessions-val-tat">0</span>
+            <span class="stat-label">Sessions</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="stat-best-val-tat">—</span>
+            <span class="stat-label">Best Score</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="stat-avg-val-tat">—</span>
+            <span class="stat-label">Average</span>
+          </div>
+        </div>
+
+        <!-- File Upload Widget -->
+        <div class="upload-widget">
+          <div class="upload-dropzone" id="tat-upload-dropzone">
+            <span class="upload-icon">📂</span>
+            <span class="upload-label">Drop <strong>images</strong> for the session here, or <u>click to browse</u></span>
+            <input type="file" id="tat-file-input" accept="image/*" multiple style="display:none" />
+          </div>
+          <div class="upload-footer">
+            <span class="upload-badge" id="tat-upload-badge">No files loaded — using default pictures</span>
+            <button class="btn-clear-upload" id="btn-clear-tat-upload" style="display:none">✕ Clear</button>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <button class="btn-primary" id="btn-start-tat">
+            <span class="btn-icon">▶</span> Start Session
+          </button>
+          <button class="btn-secondary" id="btn-history-tat">
+            <span class="btn-icon">📊</span> History
+          </button>
+        </div>
+
+        <div class="home-rules">
+          <h3>How It Works</h3>
+          <div class="rules-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="rule-item"><span class="rule-num">01</span><span>11 pictures shown for 30s each</span></div>
+            <div class="rule-item"><span class="rule-num">02</span><span>4 minutes to write a story</span></div>
+            <div class="rule-item"><span class="rule-num">03</span><span>12th slide is blank</span></div>
+            <div class="rule-item"><span class="rule-num">04</span><span>Mark completed stories at the end</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== SESSION SCREEN (WAT - NORMAL) ==================== -->
+    <div class="screen" id="screen-session-wat" style="position: relative;">
+      <!-- Back button -->
+      <button class="btn-back" onclick="pauseSession()" style="position: absolute; top: 15px; left: 20px; z-index: 10; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <!-- Top HUD -->
+      <div class="session-hud">
+        <div class="hud-left">
+          <span class="hud-label">WORD</span>
+          <span class="hud-val" id="hud-word-num">1 / 60</span>
+        </div>
+        <div class="hud-center">
+          <div class="timer-ring" id="timer-ring">
+            <svg viewBox="0 0 120 120" class="timer-svg">
+              <circle cx="60" cy="60" r="54" class="timer-track"/>
+              <circle cx="60" cy="60" r="54" class="timer-progress" id="timer-progress"/>
+            </svg>
+            <div class="timer-display">
+              <span id="timer-val">15</span>
+              <span class="timer-unit">sec</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button class="btn-pause" id="btn-pause" title="Pause">⏸</button>
+          <button class="btn-quit" id="btn-quit" title="Quit">✕</button>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="session-progress-bar">
+        <div class="session-progress-fill" id="session-progress-fill"></div>
+      </div>
+
+      <!-- Word Display -->
+      <div class="word-stage" id="word-stage">
+        <div class="word-number" id="word-number">#01</div>
+        <div class="word-card" id="word-card">
+          <div class="word-glow"></div>
+          <div class="word-text" id="word-text">LEADER</div>
+        </div>
+        <p class="word-hint">Write the first thought that comes to your mind</p>
+      </div>
+
+      <!-- Countdown Overlay -->
+      <div class="countdown-overlay hidden" id="countdown-overlay">
+        <div class="countdown-content">
+          <h2 class="countdown-title">Get Ready</h2>
+          <div class="countdown-number" id="countdown-number">5</div>
+        </div>
+      </div>
+
+      <!-- Focus Mode Overlay -->
+      <div class="focus-overlay hidden" id="focus-overlay">
+        <div class="focus-word" id="focus-word">LEADER</div>
+        <div class="focus-timer" id="focus-timer">15</div>
+        <div class="focus-hint">Press <kbd>Esc</kbd> to exit focus mode</div>
+      </div>
+
+      <!-- Bottom Controls -->
+      <div class="session-bottom">
+        <button class="btn-focus" id="btn-focus" title="Focus Mode">
+          <span>⛶</span> Focus Mode
+        </button>
+        <button class="btn-next" id="btn-next">
+          Next Word <span>→</span>
+        </button>
+      </div>
+
+      <!-- Pause Modal -->
+      <div class="modal-overlay hidden" id="pause-modal">
+        <div class="modal-box">
+          <div class="modal-icon">⏸</div>
+          <h2>Session Paused</h2>
+          <p>What would you like to do?</p>
+          <div class="modal-actions">
+            <button class="btn-primary" id="btn-resume">▶ Resume</button>
+            <button class="btn-danger" id="btn-quit-confirm">⏹ End &amp; Score</button>
+            <button class="btn-discard" id="btn-discard-session">✕ Discard</button>
+          </div>
+          <p class="modal-note"><strong>End &amp; Score</strong> — go to review with words seen so far<br><strong>Discard</strong> — quit without saving anything</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== SESSION SCREEN (WAT - TRAINING) ==================== -->
+    <div class="screen" id="screen-session-wat-training" style="position: relative;">
+      <!-- Back button -->
+      <button class="btn-back" onclick="confirmExitTraining()" style="position: absolute; top: 15px; left: 20px; z-index: 10; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <!-- Top HUD -->
+      <div class="session-hud">
+        <div class="hud-left">
+          <span class="hud-label">TRAINING WORD</span>
+          <span class="hud-val" id="training-hud-word-num">1 / 10</span>
+        </div>
+        <div class="hud-center">
+          <div class="timer-ring">
+            <svg viewBox="0 0 120 120" class="timer-svg">
+              <circle cx="60" cy="60" r="54" class="timer-track"/>
+              <circle cx="60" cy="60" r="54" class="timer-progress" id="training-timer-progress"/>
+            </svg>
+            <div class="timer-display">
+              <span id="training-timer-val">15</span>
+              <span class="timer-unit">sec</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button class="btn-end-session" id="btn-end-training-session" onclick="endTrainingSession()" title="End Session">⏹ End</button>
+          <button class="btn-quit" onclick="confirmExitTraining()" title="Discard & Exit">✕</button>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="session-progress-bar">
+        <div class="session-progress-fill" id="training-progress-fill"></div>
+      </div>
+
+      <!-- Main training work area -->
+      <div class="training-work-stage">
+        <!-- Word Panel -->
+        <div class="word-stage" style="padding: 20px 0 10px;">
+          <div class="word-number" id="training-word-number">#01</div>
+          <div class="word-card" style="padding: 30px 60px;">
+            <div class="word-glow"></div>
+            <div class="word-text" id="training-word-text">ABILITY</div>
+          </div>
+          <div class="training-category-badge" id="training-category-badge">POSITIVE</div>
+        </div>
+
+        <!-- Answer Input -->
+        <div class="training-input-section" id="training-input-section">
+          <div class="training-input-group">
+            <input type="text" id="training-answer-input" class="training-input" placeholder="Type your spontaneous response here..." autocomplete="off" onkeydown="if(event.key==='Enter')submitTrainingAnswer()">
+            <button class="btn-primary" id="btn-training-submit" onclick="submitTrainingAnswer()" style="padding: 10px 24px;">Submit Answer</button>
+          </div>
+        </div>
+
+        <!-- AI score card and assessment feedback -->
+        <div class="training-feedback-panel hidden" id="training-feedback-panel">
+          
+          <!-- Score summary -->
+          <div class="feedback-hero">
+            <div class="feedback-score-ring">
+              <span id="feedback-score-val">0</span>
+              <span class="score-of">/ 10</span>
+            </div>
+            <div class="feedback-score-meta">
+              <h3 id="feedback-grade-label">EXCELLENT</h3>
+              <p id="feedback-psych-text">Analyzing answer alignment...</p>
+            </div>
+            <div class="feedback-naturalness-tag" id="feedback-nat-tag">NATURAL</div>
+          </div>
+
+          <!-- Score Metrics Breakdown -->
+          <div class="feedback-metrics-grid" id="feedback-metrics-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Dominant OLQs badges -->
+          <div class="feedback-section">
+            <h4 class="gold-label">⭐ Dominant OLQs</h4>
+            <div class="olq-badges-container" id="feedback-olq-container">
+              <!-- badges -->
+            </div>
+          </div>
+
+          <!-- Weaknesses -->
+          <div class="feedback-section">
+            <h4 class="gold-label" style="color: var(--danger);">⚠️ Personality Concerns / Weaknesses</h4>
+            <ul class="feedback-list" id="feedback-weakness-list">
+              <li>None detected.</li>
+            </ul>
+          </div>
+
+          <!-- Improved Version -->
+          <div class="feedback-section improved-box">
+            <h4 class="gold-label">💡 Improved Version Recommendation</h4>
+            <p id="feedback-improved-text">"An improved spontaneous response will be here."</p>
+          </div>
+
+          <!-- Model Answers Section -->
+          <div class="feedback-model-answers-section">
+            <button class="btn-secondary" id="btn-show-model-answers" onclick="revealTrainingModelAnswers()" style="width: 100%; justify-content: center; margin-bottom: 12px;">
+              🔍 Show 3 Model Answers
+            </button>
+
+            <div class="training-model-answers-drawer hidden" id="training-model-answers-drawer">
+              <div class="drawer-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 class="gold-label">💡 High-Quality Model Answers</h4>
+                <button class="btn-back" onclick="refreshTrainingModelAnswers()" style="font-size: 0.75rem; padding: 4px 10px;">🔄 Refresh Answers</button>
+              </div>
+              
+              <div class="drawer-grid" id="training-model-grid">
+                <!-- model answer cards loaded from API -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Word during session -->
+      <div class="add-word-bar" id="add-word-bar">
+        <span class="add-word-label">➕ Add word to session:</span>
+        <input type="text" id="add-word-input" class="add-word-input" placeholder="Type a word..." onkeydown="if(event.key==='Enter')addWordToSession()" />
+        <button class="btn-add-word" onclick="addWordToSession()">Add</button>
+      </div>
+
+      <!-- Bottom controls -->
+      <div class="session-bottom">
+        <div></div>
+        <button class="btn-next hidden" id="btn-training-next" onclick="nextTrainingWord()">
+          Next Word <span>→</span>
+        </button>
+      </div>
+
+      <!-- Training loading overlay -->
+      <div class="modal-overlay hidden" id="training-loading-overlay">
+        <div class="modal-box" style="padding: 30px;">
+          <div class="timer-display" style="position:static; margin-bottom: 16px;">
+            <div class="timer-progress warn" style="width: 40px; height: 40px; border: 4px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+          </div>
+          <h3 style="font-family:Orbitron;">Evaluating Response</h3>
+          <p style="margin-bottom:0;" id="training-loading-text">Psychologist is assessing Officer Like Qualities...</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== SESSION SCREEN (TAT) ==================== -->
+    <div class="screen" id="screen-session-tat" style="position: relative;">
+      <!-- Back button -->
+      <button class="btn-back" onclick="pauseTatSession()" style="position: absolute; top: 15px; left: 20px; z-index: 10; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <!-- Top HUD -->
+      <div class="session-hud">
+        <div class="hud-left">
+          <span class="hud-label">PICTURE</span>
+          <span class="hud-val" id="hud-tat-num">1 / 12</span>
+        </div>
+        <div class="hud-center">
+          <div class="timer-ring" id="timer-ring-tat">
+            <svg viewBox="0 0 120 120" class="timer-svg">
+              <circle cx="60" cy="60" r="54" class="timer-track"/>
+              <circle cx="60" cy="60" r="54" class="timer-progress" id="timer-progress-tat"/>
+            </svg>
+            <div class="timer-display">
+              <span id="timer-val-tat">30</span>
+              <span class="timer-unit" id="timer-unit-tat">sec</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-right">
+          <button class="btn-pause" id="btn-pause-tat" title="Pause">⏸</button>
+          <button class="btn-quit" id="btn-quit-tat" title="Quit">✕</button>
+        </div>
+      </div>
+
+      <!-- TAT Image Stage -->
+      <div class="tat-stage" id="tat-stage" style="display: flex; justify-content: center; align-items: center; height: calc(100vh - 150px); padding: 20px;">
+        <img id="tat-image" src="" alt="TAT" style="max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain; background: #000;" />
+        <div id="tat-blank-placeholder" style="display: none; width: 100%; height: 100%; background: #000; border-radius: 8px; border: 2px dashed rgba(212,175,55,0.3); justify-content: center; align-items: center; flex-direction: column;">
+            <span style="color: rgba(255,255,255,0.2); font-family: Orbitron; font-size: 2rem;">BLANK SLIDE</span>
+            <span style="color: rgba(255,255,255,0.1); font-family: 'Exo 2'; margin-top: 10px;">Picture #12</span>
+        </div>
+      </div>
+
+      <!-- Instruction Overlay (for "Start Writing" etc) -->
+      <div class="countdown-overlay hidden" id="tat-instruction-overlay" style="z-index: 100; background: rgba(0,0,0,1);">
+        <div class="countdown-content">
+          <h2 class="countdown-title" id="tat-instruction-text" style="font-size: 4rem;">Get Ready</h2>
+        </div>
+      </div>
+
+      <!-- Pause Modal -->
+      <div class="modal-overlay hidden" id="pause-modal-tat">
+        <div class="modal-box">
+          <div class="modal-icon">⏸</div>
+          <h2>TAT Paused</h2>
+          <div class="modal-actions">
+            <button class="btn-primary" id="btn-resume-tat">▶ Resume</button>
+            <button class="btn-danger" id="btn-quit-confirm-tat">⏹ End Session</button>
+            <button class="btn-discard" id="btn-discard-session-tat">✕ Discard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Controls -->
+      <div class="session-bottom">
+        <button class="btn-focus" id="btn-focus-tat" title="Focus Mode">
+          <span>⛶</span> Focus Mode
+        </button>
+        <button class="btn-next" id="btn-next-tat">
+          Skip Picture <span>→</span>
+        </button>
+      </div>
+      
+      <!-- Focus Hint -->
+      <div id="tat-focus-hint" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #8899aa; font-family: 'Exo 2'; background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 20px; pointer-events: none; z-index: 1000;">Press <kbd style="background: #334455; padding: 2px 6px; border-radius: 4px; color: #fff;">Esc</kbd> to exit focus mode</div>
+    </div>
+
+    <!-- ==================== REVIEW SCREEN (WAT) ==================== -->
+    <div class="screen" id="screen-review-wat" style="position: relative;">
+      <button class="btn-back" onclick="showScreen('home-wat')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <div class="review-header" style="margin-top: 40px;">
+        <div class="review-badge">SESSION COMPLETE</div>
+        <h2>Mark Your Attempts</h2>
+        <p>Check the words you managed to write a response for</p>
+      </div>
+
+      <div class="review-grid" id="review-grid">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="review-summary">
+        <div class="rs-stat">
+          <span class="rs-num" id="rs-attempted">0</span>
+          <span class="rs-label">Attempted</span>
+        </div>
+        <div class="rs-stat">
+          <span class="rs-num" id="rs-skipped">60</span>
+          <span class="rs-label">Skipped</span>
+        </div>
+        <div class="rs-stat">
+          <span class="rs-num" id="rs-percent">0%</span>
+          <span class="rs-label">Score</span>
+        </div>
+      </div>
+
+      <div class="review-actions">
+        <button class="btn-secondary" id="btn-select-all">Select All</button>
+        <button class="btn-primary" id="btn-submit-review">Submit & See Analysis</button>
+      </div>
+    </div>
+
+
+    <!-- ==================== REVIEW SCREEN (TAT) ==================== -->
+    <div class="screen" id="screen-review-tat" style="position: relative;">
+      <button class="btn-back" onclick="showScreen('home-tat')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <div class="review-header" style="margin-top: 40px;">
+        <div class="review-badge">SESSION COMPLETE</div>
+        <h2>Mark Completed Stories</h2>
+        <p>Check the pictures for which you completed a story</p>
+      </div>
+
+      <div class="review-grid" id="review-grid-tat">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="review-summary">
+        <div class="rs-stat">
+          <span class="rs-num" id="rs-attempted-tat">0</span>
+          <span class="rs-label">Completed</span>
+        </div>
+        <div class="rs-stat">
+          <span class="rs-num" id="rs-skipped-tat">12</span>
+          <span class="rs-label">Missed</span>
+        </div>
+      </div>
+
+      <div class="review-actions">
+        <button class="btn-secondary" id="btn-select-all-tat">Select All</button>
+        <button class="btn-primary" id="btn-submit-review-tat">Save Result</button>
+      </div>
+    </div>
+
+    <!-- ==================== ANALYSIS SCREEN (WAT) ==================== -->
+    <div class="screen" id="screen-analysis-wat" style="position: relative;">
+      <button class="btn-back" onclick="showScreen('home-wat')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <div class="analysis-header" style="margin-top: 40px;">
+        <div class="analysis-badge">PERFORMANCE ANALYSIS</div>
+        <h2>Session Results</h2>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="analysis-tabs">
+        <button class="analysis-tab-btn active" data-tab="results">📊 Results</button>
+        <button class="analysis-tab-btn" data-tab="answers">💡 Model Answers</button>
+      </div>
+
+      <!-- ===== RESULTS TAB ===== -->
+      <div class="analysis-tab-panel active" id="tab-results">
+        <div class="analysis-score-hero">
+          <div class="score-circle" id="score-circle">
+            <svg viewBox="0 0 200 200" class="score-svg">
+              <circle cx="100" cy="100" r="85" class="score-track"/>
+              <circle cx="100" cy="100" r="85" class="score-arc" id="score-arc"/>
+            </svg>
+            <div class="score-inner">
+              <span class="score-big" id="score-big">0</span>
+              <span class="score-of">/ 60</span>
+              <span class="score-pct" id="score-pct">0%</span>
+            </div>
+          </div>
+          <div class="score-grade" id="score-grade">
+            <span class="grade-letter" id="grade-letter">—</span>
+            <span class="grade-label" id="grade-label">Keep Practicing</span>
+          </div>
+        </div>
+
+        <div class="comparison-section" id="comparison-section">
+          <h3>📈 Progress Comparison</h3>
+          <div class="comparison-bars" id="comparison-bars"></div>
+        </div>
+
+        <div class="trend-section">
+          <h3>📊 Score Trend</h3>
+          <div class="trend-chart-wrap">
+            <canvas id="trend-chart" width="700" height="180"></canvas>
+          </div>
+        </div>
+
+        <div class="breakdown-section">
+          <h3>📋 Word Breakdown</h3>
+          <div class="breakdown-grid" id="breakdown-grid"></div>
+        </div>
+      </div>
+
+      <!-- ===== ANSWERS TAB ===== -->
+      <div class="analysis-tab-panel" id="tab-answers">
+        <div class="answers-intro">
+          <p>These are <strong>high-quality, dynamically AI-generated model responses</strong> for the words in this session. Benchmark your performance against these psychologically tailored examples.</p>
+        </div>
+        <div class="answers-grid" id="answers-grid">
+          <!-- Dynamically populated via backend Gemini API -->
+        </div>
+      </div>
+
+      <div class="analysis-actions">
+        <button class="btn-primary" id="btn-new-session">New Session</button>
+        <button class="btn-secondary" id="btn-view-history">View All History</button>
+      </div>
+    </div>
+
+
+    <!-- ==================== HISTORY SCREEN (WAT) ==================== -->
+    <div class="screen" id="screen-history-wat">
+      <div class="history-header">
+        <button class="btn-back" id="btn-back-history">← Back</button>
+        <h2>WAT Session History</h2>
+      </div>
+      <div class="history-list" id="history-list">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- ==================== HISTORY SCREEN (TAT) ==================== -->
+    <div class="screen" id="screen-history-tat">
+      <div class="history-header">
+        <button class="btn-back" id="btn-back-history-tat" onclick="showScreen('home-tat')">← Back</button>
+        <h2>TAT Session History</h2>
+      </div>
+      <div class="history-list" id="history-list-tat">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- ==================== TRAINING RESULTS SCREEN ==================== -->
+    <div class="screen" id="screen-training-results" style="position: relative;">
+      <button class="btn-back" onclick="showScreen('home-wat')" style="position: absolute; top: 20px; left: 20px; background: none; border: none; color: #8899aa; cursor: pointer; font-family: 'Exo 2'; font-size: 1rem;"><span style="margin-right:5px">←</span> Back</button>
+      <div class="home-content" style="max-width:760px; margin-top: 40px;">
+        <div class="analysis-badge" style="margin-bottom:8px;">TRAINING COMPLETE</div>
+        <h1 class="home-title" style="font-size:2.2rem;">Session <span class="gold">Report</span></h1>
+
+        <!-- Stats row -->
+        <div class="home-stats" id="training-result-stats" style="margin-bottom:28px;">
+          <div class="stat-card">
+            <span class="stat-num" id="tr-words-attempted">0</span>
+            <span class="stat-label">Words Done</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="tr-avg-score">—</span>
+            <span class="stat-label">Avg Score</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" id="tr-grade">—</span>
+            <span class="stat-label">Grade</span>
+          </div>
+        </div>
+
+        <!-- Word history accordion -->
+        <div class="training-history-box" id="training-history-box"></div>
+
+        <!-- Generate Report button -->
+        <div style="margin: 24px 0;">
+          <button class="btn-primary" id="btn-generate-report" onclick="generateTrainingReport()" style="width:100%;justify-content:center;">
+            📋 Generate Psychologist Report
+          </button>
+        </div>
+
+        <!-- Report display -->
+        <div class="report-card hidden" id="report-card">
+          <div class="report-loading hidden" id="report-loading">
+            <div class="report-spinner"></div>
+            <p>Compiling psychologist report...</p>
+          </div>
+          <div id="report-content">
+            <div class="report-section goods-section">
+              <h4>✅ GOODS</h4>
+              <p id="report-goods"></p>
+            </div>
+            <div class="report-section bads-section">
+              <h4>⚠️ BADS</h4>
+              <p id="report-bads"></p>
+            </div>
+            <div class="report-section improve-section">
+              <h4>🎯 IMPROVEMENT</h4>
+              <p id="report-improvement"></p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:30px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="downloadTrainingReport()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); border-color: #2e7d32;">📥 Download Report</button>
+          <button class="btn-primary" onclick="showScreen('training-setup')">New Training</button>
+          <button class="btn-secondary" onclick="showScreen('home-wat')">← WAT Home</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+
+  <!-- Firebase Compat Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script src="/static/app.js"></script>
+  <script src="/static/tat.js"></script>
+</body>
+</html>
